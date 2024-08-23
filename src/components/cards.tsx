@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { Carousel, Card } from "@/components/ui/apple-cards-carousel";
 import { ConnectWallet } from "./connect-wallet";
 import Globe from "./ui/magic-globe";
@@ -13,6 +13,7 @@ function AppleCards() {
   const cards = data.map((card, index) => (
     <Card key={card.src} card={card} index={index} />
   ));
+  useEffect(() => {}, []);
 
   return (
     <div className="w-full min-h-screen overflow-y-scroll">

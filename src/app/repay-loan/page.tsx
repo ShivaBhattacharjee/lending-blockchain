@@ -1,5 +1,7 @@
+"use client";
 import * as React from "react";
-
+import { useState } from "react";
+import { ethers } from "ethers";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -11,42 +13,118 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { TableLoan } from "@/components/loan-table";
+import GetAllLoansComponent from "../get-all-loans/page";
 
-export default function CardWithForm() {
+export default function RepayLoanCard() {
+  const [loanId, setLoanId] = useState<string>("");
+  const [repayAmount, setRepayAmount] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const contractAddress = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS!;
+  const abi = [
+    // Include the ABI for the `repayLoan` function
+    {
+      inputs: [
+        {
+          internalType: "bytes32",
+          name: "_loanId",
+          type: "bytes32",
+        },
+        {
+          internalType: "uint256",
+          name: "_amount",
+          type: "uint256",
+        },
+      ],
+      name: "repayLoan",
+      outputs: [],
+      stateMutability: "nonpayable",
+      type: "function",
+    },
+    // Include any other necessary ABI entries
+  ];
+
+  const handleRepayLoan = async (e: React.FormEvent) => {
+    console.log("Repay loan triggered");
+    setLoading(true);
+    e.preventDefault();
+
+    try {
+      if (!window.ethereum)
+        throw new Error("No crypto wallet found. Please install it.");
+
+      await window.ethereum.request({ method: "eth_requestAccounts" });
+
+      const provider = new ethers.BrowserProvider(window.ethereum); // Use BrowserProvider
+      const signer = await provider.getSigner();
+
+      const contract = new ethers.Contract(contractAddress, abi, signer);
+
+      const tx = await contract.repayLoan(
+        loanId,
+        ethers.parseEther(repayAmount)
+      );
+
+      await tx.wait();
+      alert("Loan repaid successfully!");
+
+      // Clear form fields after successful submission
+      setLoanId("");
+      setRepayAmount("");
+    } catch (err: any) {
+      console.error(err);
+      alert("Failed to repay loan: " + err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <>
-      <h2 className=" text-xl  md:text-5xl font-bold text-neutral-800 dark:text-neutral-200 font-sans">
-        Repay Your loans.
-      </h2>
-      <Card className="mr-auto mt-20 w-[800px]">
+    <div>
+      <Card>
         <CardHeader>
-          <CardTitle>Repay Loan</CardTitle>
-          <CardDescription>Repay Your Loan in one-click.</CardDescription>
+          <CardTitle>Repay a Loan</CardTitle>
+          <CardDescription>
+            Enter the loan ID and repayment amount below.
+          </CardDescription>
         </CardHeader>
         <CardContent>
-          <form>
+          <form onSubmit={handleRepayLoan}>
             <div className="grid w-full items-center gap-4">
               <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="name">LoanId</Label>
-                <Input id="name" placeholder="Enter Your LoanId" />
+                <Label htmlFor="loanId">Loan ID</Label>
+                <Input
+                  id="loanId"
+                  type="text"
+                  placeholder="0x..."
+                  value={loanId}
+                  onChange={(e) => setLoanId(e.target.value)}
+                  required
+                />
               </div>
               <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="name">Amount</Label>
-                <Input id="number" placeholder="Please Enter Loan Amount" />
+                <Label htmlFor="repayAmount">Repayment Amount (ETH)</Label>
+                <Input
+                  id="repayAmount"
+                  type="text"
+                  placeholder="0.5"
+                  value={repayAmount}
+                  onChange={(e) => setRepayAmount(e.target.value)}
+                  required
+                />
               </div>
             </div>
+            <CardFooter>
+              <Button type="submit" className=" mt-5">
+                {loading ? "Processing" : "Repay Loan"}
+              </Button>
+            </CardFooter>
           </form>
         </CardContent>
-        <CardFooter className="flex justify-between">
-          <Button variant="outline">Cancel</Button>
-          <Button>Repay</Button>
-        </CardFooter>
       </Card>
-      <h2 className=" text-xl mt-20  md:text-5xl font-bold text-neutral-800 dark:text-neutral-200 font-sans">
-        Repaid Loans.
-      </h2>
-      <TableLoan />
-    </>
+      <br />
+      <br />
+      <GetAllLoansComponent />
+    </div>
   );
 }

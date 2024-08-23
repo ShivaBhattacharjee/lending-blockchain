@@ -34,6 +34,13 @@ const Navbar: React.FC<NavbarProps> = ({ children }) => {
       ),
     },
     {
+      label: "get-all-loans",
+      href: "/get-all-loans",
+      icon: (
+        <Banknote className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+      ),
+    },
+    {
       label: "borrower-loan",
       href: "/borrower-loan",
       icon: (
