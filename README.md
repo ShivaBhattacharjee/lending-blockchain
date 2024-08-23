@@ -15,7 +15,7 @@
     A go to platform to stream/download your favorite anime
     <br/>
     <br/>
-    <a href="https://animetrix.xyz/">View Demo</a>
+    <a href="https://lending-blockchain.theshiva.xyz/">View Demo</a>
     .
     <a href="https://github.com/ShivaBhattacharjee/AnimeTrix-next/issues">Report Bug</a>
     .
