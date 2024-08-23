@@ -3,19 +3,20 @@ pragma solidity ^0.8.0;
 
 contract TokenizedStudentLoan {
     struct Loan {
-        bytes32 loanId; 
+        bytes32 loanId;
         address sender;
         address receiver;
         uint256 amount;
         uint256 interestRate;
         uint256 balance;
-        uint256 loanTerm; 
+        uint256 loanTerm;
         bool isRepaid;
     }
 
     uint256 public loanCounter;
     mapping(bytes32 => Loan) public loans;
     mapping(address => bytes32[]) public borrowerLoans;
+    bytes32[] public allLoanIds; // Array to store all loan IDs
 
     event LoanIssued(bytes32 loanId, address sender, address receiver, uint256 amount, uint256 interestRate, uint256 loanTerm);
     event LoanRepaid(bytes32 loanId, uint256 amount);
@@ -23,9 +24,10 @@ contract TokenizedStudentLoan {
 
     function issueLoan(address _receiver, uint256 _amount, uint256 _interestRate, uint256 _loanTerm) public returns (bytes32) {
         loanCounter++;
-        bytes32 loanId = generateUUID(); 
+        bytes32 loanId = keccak256(abi.encodePacked(block.timestamp, msg.sender, loanCounter)); 
         loans[loanId] = Loan(loanId, msg.sender, _receiver, _amount, _interestRate, _amount, _loanTerm, false);
         borrowerLoans[_receiver].push(loanId);
+        allLoanIds.push(loanId); // Store the loan ID
         emit LoanIssued(loanId, msg.sender, _receiver, _amount, _interestRate, _loanTerm);
         return loanId;
     }
@@ -57,7 +59,15 @@ contract TokenizedStudentLoan {
         return borrowerLoans[_borrower];
     }
 
-    function generateUUID() internal view returns (bytes32) {
-        return keccak256(abi.encodePacked(block.timestamp, msg.sender, loanCounter));
+    function getAllLoans() public view returns (Loan[] memory) {
+        Loan[] memory allLoans = new Loan[](allLoanIds.length);
+
+        for (uint256 i = 0; i < allLoanIds.length; i++) {
+            bytes32 loanId = allLoanIds[i];
+            Loan storage loan = loans[loanId];
+            allLoans[i] = loan;
+        }
+
+        return allLoans;
     }
 }
