@@ -8,7 +8,6 @@
 
 ![NextJs](https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
-[![Deno](https://github.com/ShivaBhattacharjee/AnimeTrix-next/actions/workflows/deno.yml/badge.svg)](https://github.com/ShivaBhattacharjee/AnimeTrix-next/actions/workflows/deno.yml)
 ![GitHub repo size](https://img.shields.io/github/repo-size/shivabhattacharjee/lending-blockchain)
 
   </div>
@@ -171,8 +170,7 @@ Distributed under the Apache License 2.0 . See [LICENSE](https://github.com/Shiv
 
 <img width="1710" alt="image" src="https://github.com/user-attachments/assets/7b31380f-364f-458e-8d01-eea08f461189">
 
-<!--
-#### Visit <a href = "https://animetrix.xyz" target="_blank">Animetrix</a> -->
+
 
 ## Authors
 
