@@ -21,13 +21,7 @@ function AppleCards() {
         <h2 className=" text-xl  md:text-5xl font-bold text-neutral-800 dark:text-neutral-200 font-sans">
           What do we offer.
         </h2>
-        {isConnected ? (
-          <ConnectButton />
-        ) : (
-          <button onClick={connect}>
-            <ConnectWallet />
-          </button>
-        )}
+        <ConnectButton />
       </div>
       <Carousel items={cards} />
       <div className="relative flex h-full w-full  items-center justify-center overflow-hidden rounded-lg  bg-background px-40 pb-40 pt-8 md:pb-60 md:shadow-xl">

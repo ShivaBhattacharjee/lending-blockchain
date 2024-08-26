@@ -14,6 +14,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import GetAllLoansComponent from "../get-all-loans/page";
+import { contractAbi } from "@/abi";
 
 export default function RepayLoanCard() {
   const [loanId, setLoanId] = useState<string>("");
@@ -21,28 +22,6 @@ export default function RepayLoanCard() {
   const [loading, setLoading] = useState<boolean>(false);
 
   const contractAddress = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS!;
-  const abi = [
-    // Include the ABI for the `repayLoan` function
-    {
-      inputs: [
-        {
-          internalType: "bytes32",
-          name: "_loanId",
-          type: "bytes32",
-        },
-        {
-          internalType: "uint256",
-          name: "_amount",
-          type: "uint256",
-        },
-      ],
-      name: "repayLoan",
-      outputs: [],
-      stateMutability: "nonpayable",
-      type: "function",
-    },
-    // Include any other necessary ABI entries
-  ];
 
   const handleRepayLoan = async (e: React.FormEvent) => {
     console.log("Repay loan triggered");
@@ -58,7 +37,11 @@ export default function RepayLoanCard() {
       const provider = new ethers.BrowserProvider(window.ethereum); // Use BrowserProvider
       const signer = await provider.getSigner();
 
-      const contract = new ethers.Contract(contractAddress, abi, signer);
+      const contract = new ethers.Contract(
+        contractAddress,
+        contractAbi,
+        signer
+      );
 
       const tx = await contract.repayLoan(
         loanId,
