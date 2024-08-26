@@ -14,6 +14,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import GetAllLoansComponent from "../get-all-loans/page";
+import IssuedLoansComponent from "@/components/IssuedLoan";
 
 export default function CardWithForm() {
   const [receiver, setReceiver] = useState<string>("");
@@ -454,6 +455,7 @@ export default function CardWithForm() {
       setAmount("");
       setInterestRate("");
       setLoanTerm("");
+      window.location.reload();
     } catch (err: any) {
       console.error(err);
       alert("Failed to issue loan: " + err.message);
@@ -527,7 +529,7 @@ export default function CardWithForm() {
       </Card>
       <br />
       <br />
-      <GetAllLoansComponent />
+      <IssuedLoansComponent />
     </div>
   );
 }
