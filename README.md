@@ -12,14 +12,14 @@
 
   </div>
   <p align="center">
-    A go to platform to stream/download your favorite anime
+    A simple app where users can send and receive loans, and mark borrowers as defaulters.
     <br/>
     <br/>
     <a href="https://lending-blockchain.theshiva.xyz/">View Demo</a>
     .
-    <a href="https://github.com/ShivaBhattacharjee/AnimeTrix-next/issues">Report Bug</a>
+    <a href="https://github.com/ShivaBhattacharjee/lending-blockchain/issues">Report Bug</a>
     .
-    <a href="https://github.com/ShivaBhattacharjee/AnimeTrix-next/issues">Request Feature</a>
+    <a href="https://github.com/ShivaBhattacharjee/lending-blockchain/issues">Request Feature</a>
   </p>
 </p>
 
@@ -123,7 +123,7 @@ Contributions are what make the open source community such an amazing place to b
 
 ### Creating A Pull Request
 
-Wanna contribute to AnimeTrix ?
+Wanna contribute to Lending-Blockchain ?
 
 1. Fork the Project
 2. Create your Feature Branch (`git checkout -b feature/FeatureName`)
